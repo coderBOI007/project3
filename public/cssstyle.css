@@ -1,0 +1,85 @@
+/* Additional CSS for new features */
+
+/* Character count */
+.char-count {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Search input */
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Smooth transitions */
+.task-item {
+    transition: all 0.3s ease;
+}
+
+/* Loading states */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Notification animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.alert {
+    animation: slideIn 0.3s ease;
+}
+
+/* Header navigation */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link {
+    color: #667eea;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.nav-link:hover {
+    background: #f8f9fa;
+}
+
+.welcome-text {
+    color: #666;
+    margin-right: 10px;
+}
+
+/* Responsive navigation */
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .welcome-text {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

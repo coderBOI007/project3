@@ -1,0 +1,37 @@
+<footer class="footer">
+    <div class="container">
+    
+        <p class="footer-links">
+            <a href="/">Home</a>
+            <% if (user) { %>
+                | <a href="/tasks">Tasks</a>
+            <% } else { %>
+                | <a href="/auth/login">Login</a> | <a href="/auth/signup">Sign Up</a>
+            <% } %>
+        </p>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        margin-top: 50px;
+        padding: 20px 0;
+        border-top: 1px solid #ddd;
+        text-align: center;
+        color: #666;
+        background: #f8f9fa;
+    }
+    
+    .footer-links {
+        margin-top: 10px;
+    }
+    
+    .footer-links a {
+        color: #667eea;
+        text-decoration: none;
+    }
+    
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+</style>

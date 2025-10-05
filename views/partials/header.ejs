@@ -1,0 +1,15 @@
+<header>
+    <div class="logo">
+        <h1><a href="/" style="text-decoration: none; color: inherit;">✅ Todo App</a></h1>
+    </div>
+    <nav class="nav-links">
+        <% if (user) { %>
+            <span class="welcome-text">Welcome, <strong><%= user.username %></strong></span>
+            <a href="/tasks" class="nav-link">My Tasks</a>
+            <a href="/logout" class="nav-link">Logout</a>
+        <% } else { %>
+            <a href="/auth/login" class="nav-link">Login</a>
+            <a href="/auth/signup" class="nav-link">Sign Up</a>
+        <% } %>
+    </nav>
+</header>

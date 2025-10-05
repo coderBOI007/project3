@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App - Organize Your Tasks</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <%- include('partials/header') %>
+        
+        <main class="hero-section">
+            <div class="hero-content">
+                <h1>Organize Your Life with Todo App</h1>
+                <p class="hero-subtitle">Simple, intuitive task management for professionals and teams</p>
+                
+                <% if (!user) { %>
+                    <div class="hero-actions">
+                        <a href="/auth/signup" class="btn btn-primary">Get Started Free</a>
+                        <a href="/auth/login" class="btn btn-secondary">Login</a>
+                    </div>
+                <% } else { %>
+                    <div class="hero-actions">
+                        <a href="/tasks" class="btn btn-primary">Go to My Tasks</a>
+                    </div>
+                <% } %>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h3>✅ Create Tasks</h3>
+                    <p>Add tasks with titles, descriptions, and due dates</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Track Progress</h3>
+                    <p>Monitor your tasks with pending, completed, and deleted status</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔒 Secure & Private</h3>
+                    <p>Your tasks are private and only visible to you</p>
+                </div>
+            </div>
+        </main>
+        
+        <%- include('partials/footer') %>
+    </div>
+</body>
+</html>
+
+<style>
+    .hero-section {
+        text-align: center;
+        padding: 60px 20px;
+    }
+    
+    .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-actions {
+        margin-bottom: 60px;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 15px 30px;
+        margin: 0 10px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background: #764ba2;
+        transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+        background: transparent;
+        color: #667eea;
+        border: 2px solid #667eea;
+    }
+    
+    .btn-secondary:hover {
+        background: #667eea;
+        color: white;
+    }
+    
+    .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .feature-card {
+        background: white;
+        padding: 30px 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .feature-card h3 {
+        margin-bottom: 15px;
+        color: #333;
+    }
+    
+    .feature-card p {
+        color: #666;
+        line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+        
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .btn {
+            margin: 5px 0;
+        }
+    }
+</style>

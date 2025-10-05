@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todo List</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .user-info { background: #f8f9fa; padding: 10px 15px; border-radius: 5px; }
+        
+        .progress-stats { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 30px;
+        }
+        .stat-card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-number { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            margin-bottom: 5px;
+        }
+        .completion-rate { color: #28a745; }
+        .total-tasks { color: #007bff; }
+        .pending-tasks { color: #ffc107; }
+        
+        .task-form { 
+            background: white; 
+            padding: 20px; 
+            margin-bottom: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .btn { 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        
+        .task-card { 
+            background: white; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            border-radius: 5px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid #007bff;
+        }
+        .task-card.completed {
+            border-left-color: #28a745;
+            opacity: 0.7;
+        }
+        .task-actions { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>My Todo List</h1>
+            <div class="user-info">
+                Welcome, <%= user.username %> | 
+                <a href="/auth/logout">Logout</a>
+            </div>
+        </div>
+
+        <!-- Progress Tracking -->
+        <div class="progress-stats">
+            <div class="stat-card">
+                <div class="stat-number completion-rate"><%= completionRate %>%</div>
+                <div>Completion Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number total-tasks"><%= totalTasks %></div>
+                <div>Total Tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number pending-tasks"><%= pendingTasks %></div>
+                <div>Pending Tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #28a745;"><%= completedTasks %></div>
+                <div>Completed Tasks</div>
+            </div>
+        </div>
+
+        <!-- Add Task Form -->
+        <div class="task-form">
+            <h2>Add New Task</h2>
+            <form action="/tasks" method="POST">
+                <div class="form-group">
+                    <label for="title">Task title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description (optional)</label>
+                    <textarea id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="datetime-local" id="dueDate" name="dueDate">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Task</button>
+            </form>
+        </div>
+
+        <!-- Task List -->
+        <h2>All Tasks</h2>
+        <% if (tasks.length === 0) { %>
+            <p>No tasks found. Create your first task above!</p>
+        <% } else { %>
+            <% tasks.forEach(function(task) { %>
+                <div class="task-card <%= task.status === 'completed' ? 'completed' : '' %>">
+                    <h3><%= task.title %></h3>
+                    <% if (task.description) { %>
+                        <p><%= task.description %></p>
+                    <% } %>
+                    <% if (task.dueDate) { %>
+                        <p><strong>Due:</strong> <%= new Date(task.dueDate).toLocaleString() %></p>
+                    <% } %>
+                    <p><strong>Status:</strong> <span class="task-status"><%= task.status %></span></p>
+                    <div class="task-actions">
+                        <% if (task.status === 'pending') { %>
+                            <form action="/tasks/<%= task._id %>/status" method="POST" style="display: inline;">
+                                <input type="hidden" name="status" value="completed">
+                                <button type="submit" class="btn btn-success">Complete</button>
+                            </form>
+                        <% } else if (task.status === 'completed') { %>
+                            <form action="/tasks/<%= task._id %>/status" method="POST" style="display: inline;">
+                                <input type="hidden" name="status" value="pending">
+                                <button type="submit" class="btn btn-primary">Mark Pending</button>
+                            </form>
+                        <% } %>
+                        <form action="/tasks/<%= task._id %>/delete" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+
+    <script>
+        // Add confirmation for delete actions
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteForms = document.querySelectorAll('form[action*="/delete"]');
+            deleteForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    if (!confirm('Are you sure you want to delete this task?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
